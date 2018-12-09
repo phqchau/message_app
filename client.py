@@ -4,7 +4,6 @@ from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 import tkinter
 
-<<<<<<< Updated upstream
 # Add logic to determine whether to handle it as a private mesage or not
 
 def isPrivate(msg):
@@ -17,8 +16,6 @@ def isPrivate(msg):
 def getPrivUsername(msg):
     return msg.startswith("@")
 
-=======
->>>>>>> Stashed changes
 def receive():
     """Handles receiving of messages."""
     while True:
