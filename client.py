@@ -9,17 +9,25 @@ import tkinter
 def isPrivate(msg):
     teststr = ""
     try:
-        return teststr.split(" ")[0][0] =="@"
+        return teststr.split(" ")[0][0] == "@"
     except:
         return False
+
+def getPrivUsername(msg):
+    return msg.split(" ")[0][1:]
 
 def receive():
     """Handles receiving of messages."""
     while True:
         try:
             msg = client_socket.recv(BUFSIZ).decode("utf8")
-            # if isPrivate(msg):
-            msg_list.insert(tkinter.END, msg)
+            if isPrivate(msg):
+                privUser = getPrivUsername(msg)
+                if not privUser in privLists:
+                    privLists[privUser] = []
+                privLists[privUser].insert(tkinter.END, msg)
+            else:
+                msg_list.insert(tkinter.END, msg)
         except OSError:  # Possibly client has left the chat.
             break
 
@@ -53,6 +61,7 @@ if __name__ == "__main__":
     msg_list.pack()
     messages_frame.pack()
 
+privLists = {}
 
 entry_field = tkinter.Entry(top, textvariable=my_msg, width=45)
 entry_field.bind("<Return>", send)
