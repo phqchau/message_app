@@ -9,12 +9,12 @@ import tkinter
 def isPrivate(msg):
     teststr = ""
     try:
-        return teststr.split(" ")[0][0] == "@"
+        return msg.startswith("@")
     except:
         return False
 
 def getPrivUsername(msg):
-    return msg.split(" ")[0][1:]
+    return msg.startswith("@")
 
 def receive():
     """Handles receiving of messages."""
