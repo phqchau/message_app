@@ -4,7 +4,6 @@ from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 import tkinter
 
-<<<<<<< Updated upstream
 # Add logic to determine whether to handle it as a private mesage or not
 
 def isPrivate(msg):
@@ -16,8 +15,6 @@ def isPrivate(msg):
 def getPrivUsername(msg):
 	return msg.startswith("@")
 
-=======
->>>>>>> Stashed changes
 def receive():
 	"""Handles receiving of messages."""
 	while True:
@@ -67,11 +64,11 @@ if __name__ == "__main__":
 privLists = {}
 privFrames = {}
 
-    entry_field = tkinter.Entry(top, textvariable=my_msg, width=45)
-    entry_field.bind("<Return>", send)
-    entry_field.pack(side=tkinter.LEFT)
-    send_button = tkinter.Button(top, text="Send", command=send)
-    send_button.pack()
+entry_field = tkinter.Entry(top, textvariable=my_msg, width=45)
+entry_field.bind("<Return>", send)
+entry_field.pack(side=tkinter.LEFT)
+send_button = tkinter.Button(top, text="Send", command=send)
+send_button.pack()
 
 
 top.protocol("WM_DELETE_WINDOW", on_closing)
