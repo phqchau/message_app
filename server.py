@@ -22,14 +22,14 @@ def handle_client(client):  # Takes client socket as argument.
 	msg = "%s has joined the chat!" % name
 	broadcast(bytes(msg, "utf8"))
 	clients[client] = name
+	names[name] = client
 
 	while True:
 		msg = client.recv(BUFSIZ)
 		if msg != bytes("{quit}", "utf8"):
 			if msg.decode("utf8").startswith("@"):
 				receiver = msg.decode("utf8").split(" ")[0][1:]
-				msg = " ".join(msg.decode("utf8").split(" ")[1:])
-				private_msg(bytes(msg, "utf8"), receiver, name+": ")
+				private_msg(msg, receiver, name+": ")
 				private_msg(bytes(msg, "utf8"), client, name+": ")
 			else:
 				broadcast(msg, name+": ")
@@ -47,11 +47,15 @@ def broadcast(msg, prefix=""):  # prefix is for name identification.
 		sock.send(bytes(prefix, "utf8")+msg)
 
 def private_msg(msg, receiver, prefix=""):
-	for sock in clients:
-		if clients[sock] == receiver:
-			sock.send(bytes(prefix, "utf8")+msg)
+	if receiver in names:
+		names[receiver].send(bytes(prefix, "utf8"+msg))
+
+	# for sock in clients:
+	# 	if clients[sock] == receiver:
+	# 		sock.send(bytes(prefix, "utf8")+msg)
 
 clients = {}
+names = {}
 addresses = {}
 
 HOST = ''
