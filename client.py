@@ -4,12 +4,21 @@ from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 import tkinter
 
+# Add logic to determine whether to handle it as a private mesage or not
+
+def isPrivate(msg):
+    teststr = ""
+    try:
+        return teststr.split(" ")[0][0] =="@"
+    except:
+        return False
 
 def receive():
     """Handles receiving of messages."""
     while True:
         try:
             msg = client_socket.recv(BUFSIZ).decode("utf8")
+            # if isPrivate(msg):
             msg_list.insert(tkinter.END, msg)
         except OSError:  # Possibly client has left the chat.
             break
@@ -44,28 +53,30 @@ if __name__ == "__main__":
     msg_list.pack()
     messages_frame.pack()
 
-    entry_field = tkinter.Entry(top, textvariable=my_msg)
-    entry_field.bind("<Return>", send)
-    entry_field.pack()
-    send_button = tkinter.Button(top, text="Send", command=send)
-    send_button.pack()
 
-    top.protocol("WM_DELETE_WINDOW", on_closing)
+entry_field = tkinter.Entry(top, textvariable=my_msg, width=45)
+entry_field.bind("<Return>", send)
+entry_field.pack(side=tkinter.LEFT)
+send_button = tkinter.Button(top, text="Send", command=send)
+send_button.pack()
 
-    #----Now comes the sockets part----
-    HOST = input('Enter host: ')
-    PORT = input('Enter port: ')
-    if not PORT:
-        PORT = 33000
-    else:
-        PORT = int(PORT)
 
-    BUFSIZ = 1024
-    ADDR = (HOST, PORT)
+top.protocol("WM_DELETE_WINDOW", on_closing)
 
-    client_socket = socket(AF_INET, SOCK_STREAM)
-    client_socket.connect(ADDR)
+#----Now comes the sockets part----
+HOST = input('Enter host: ')
+PORT = input('Enter port: ')
+if not PORT:
+    PORT = 33000
+else:
+    PORT = int(PORT)
 
-    receive_thread = Thread(target=receive)
-    receive_thread.start()
-    tkinter.mainloop()  # Starts GUI execution.
+BUFSIZ = 1024
+ADDR = (HOST, PORT)
+
+client_socket = socket(AF_INET, SOCK_STREAM)
+client_socket.connect(ADDR)
+
+receive_thread = Thread(target=receive)
+receive_thread.start()
+tkinter.mainloop()  # Starts GUI execution.
