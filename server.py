@@ -28,8 +28,7 @@ def handle_client(client):  # Takes client socket as argument.
         if msg != bytes("{quit}", "utf8"):
             if msg.decode("utf8").startswith("@"):
                 receiver = msg.decode("utf8").split(" ")[0][1:]
-                msg = " ".join(msg.decode("utf8").split(" ")[1:])
-                private_msg(bytes(msg, "utf8"), receiver, name+": ")
+                private_msg(msg, receiver, name+": ")
             else:
                 broadcast(msg, name+": ")
         else:
