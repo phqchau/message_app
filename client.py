@@ -14,7 +14,6 @@ def receive():
         except OSError:  # Possibly client has left the chat.
             break
 
-
 def send(event=None):  # event is passed by binders.
     """Handles sending of messages."""
     msg = my_msg.get()
