@@ -29,6 +29,7 @@ def on_closing(event=None):
     my_msg.set("{quit}")
     send()
 
+
 if __name__ == "__main__":
     top = tkinter.Tk()
     top.title("Chatter")
@@ -44,13 +45,14 @@ if __name__ == "__main__":
     msg_list.pack()
     messages_frame.pack()
 
+    #privateMsg_frame = tkinter.Frame(top)
 
-entry_field = tkinter.Entry(top, textvariable=my_msg, width=45)
-entry_field.bind("<Return>", send)
-entry_field.pack(side=tkinter.LEFT)
-send_button = tkinter.Button(top, text="Send", command=send)
-send_button.pack()
 
+    entry_field = tkinter.Entry(top, textvariable=my_msg, width=45)
+    entry_field.bind("<Return>", send)
+    entry_field.pack()
+    send_button = tkinter.Button(top, text="Send", command=send)
+    send_button.pack()
 
     top.protocol("WM_DELETE_WINDOW", on_closing)
 
