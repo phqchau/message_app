@@ -30,7 +30,6 @@ def handle_client(client):  # Takes client socket as argument.
 			if msg.decode("utf8").startswith("@"):
 				receiver = msg.decode("utf8").split(" ")[0][1:]
 				private_msg(msg, receiver, name+": ")
-				private_msg(bytes(msg, "utf8"), client, name+": ")
 			else:
 				broadcast(msg, name+": ")
 		else:
@@ -48,7 +47,7 @@ def broadcast(msg, prefix=""):  # prefix is for name identification.
 
 def private_msg(msg, receiver, prefix=""):
 	if receiver in names:
-		names[receiver].send(bytes(prefix, "utf8"+msg))
+		names[receiver].send(bytes(prefix, "utf8")+msg)
 
 	# for sock in clients:
 	# 	if clients[sock] == receiver:
