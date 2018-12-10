@@ -6,8 +6,10 @@ import tkinter
 
 # Add logic to determine whether to handle it as a private mesage or not
 def isPrivate(msg):
+	# print(msg)
+	strMsg = msg.split(": ")
 	try:
-		return msg.startswith("@")
+		return strMsg.startswith("@")
 	except:
 		return False
 
@@ -19,20 +21,23 @@ def receive():
 	while True:
 		try:
 			msg = client_socket.recv(BUFSIZ).decode("utf8")
-			#if isPrivate(msg):
-				#privUser = getPrivUsername(msg)
-				#pmsg_list.insert(tkinter.END, msg)
-				# if not privUser in privFrames:
-				# 	privFrames[privUser] = tkinter.Frame(top)
-				# 	newScrollbar = tkinter.Scrollbar(privFrames.privUser)
-				# 	privLists[privUser] = tkinter.Listbox(privFrames[privUser], yscrollcommand=newScrollbar.set)
-				# 	newScrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
-				# 	privLists.privUser.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
-				# 	privLists.privUser.pack()
-				# 	privFrames.privUser.pack()
-				# privLists.privUser.insert(tkinter.END, msg)
-			#else:
-			msg_list.insert(tkinter.END, msg)
+			# print(isPrivate(msg))
+			# if msg:
+			# 	print(msg)
+			if isPrivate(msg):
+				privUser = getPrivUsername(msg)
+				pmsg_list.insert(tkinter.END, msg)
+				if not privUser in privFrames:
+					privFrames[privUser] = tkinter.Frame(top)
+					newScrollbar = tkinter.Scrollbar(privFrames[privUser])
+					privLists[privUser] = tkinter.Listbox(privFrames[privUser], yscrollcommand=newScrollbar.set)
+					newScrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+					privLists[privUser].pack(side=tkinter.LEFT, fill=tkinter.BOTH)
+					privLists[privUser].pack()
+					privFrames[privUser].pack()
+				privLists[privUser].insert(tkinter.END, msg)
+			else:
+				msg_list.insert(tkinter.END, msg)
 		except OSError:  # Possibly client has left the chat.
 			break
 
@@ -67,18 +72,18 @@ if __name__ == "__main__":
 	msg_list.pack()
 	messages_frame.pack()
 
-	#privateMsg_frame = tkinter.Frame(top)
-	#my_pmsg = tkinter.StringVar()
-	#my_pmsg.set("Type your private message here.")
-	#scrollbar2 = tkinter.Scrollbar(privateMsg_frame)
-	#pmsg_list = tkinter.Listbox(privateMsg_frame, height=15, width=50, yscrollcommand=scrollbar2.set)
-	#scrollbar2.pack(side=tkinter.RIGHT, fill=tkinter.Y)
-	#pmsg_list.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
-	#pmsg_list.pack()
-	#privateMsg_frame.pack()
+	privateMsg_frame = tkinter.Frame(top)
+	my_pmsg = tkinter.StringVar()
+	my_pmsg.set("Type your private message here.")
+	scrollbar2 = tkinter.Scrollbar(privateMsg_frame)
+	pmsg_list = tkinter.Listbox(privateMsg_frame, height=15, width=50, yscrollcommand=scrollbar2.set)
+	scrollbar2.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+	pmsg_list.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
+	pmsg_list.pack()
+	privateMsg_frame.pack()
 
-	#privLists = {}
-	#privFrames = {}
+	privLists = {}
+	privFrames = {}
 
 	entry_field = tkinter.Entry(top, textvariable=my_msg, width=45)
 	entry_field.bind("<Return>", send)

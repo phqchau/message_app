@@ -27,6 +27,7 @@ def handle_client(client):  # Takes client socket as argument.
 	while True:
 		msg = client.recv(BUFSIZ)
 		if msg != bytes("{quit}", "utf8"):
+			print(msg)
 			if msg.decode("utf8").startswith("@"):
 				receiver = msg.decode("utf8").split(" ")[0][1:]
 				private_msg(msg, receiver, name+": ")
