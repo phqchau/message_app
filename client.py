@@ -26,6 +26,11 @@ def receive():
 			# if msg:
 			# 	print(msg)
 			if isPrivate(msg):
+				splitAtSym = msg.split(": ")
+				splitAfterAt = msg.split(" ")
+				del splitAfterAt[1]
+				msgToSend = ' '.join(splitAfterAt)
+				print(msgToSend)
 				privUser = getPrivUsername(msg)
 				# pmsg_list.insert(tkinter.END, msg)
 				if not privUser in privFrames:
@@ -33,10 +38,11 @@ def receive():
 					newScrollbar = tkinter.Scrollbar(privFrames[privUser])
 					privLists[privUser] = tkinter.Listbox(privFrames[privUser], yscrollcommand=newScrollbar.set)
 					newScrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
-					privLists[privUser].pack(side=tkinter.LEFT, fill=tkinter.BOTH)
+					privLists[privUser].pack(side=tkinter.LEFT, expand=True, fill=tkinter.BOTH)
 					privLists[privUser].pack()
-					privFrames[privUser].pack()
-				privLists[privUser].insert(tkinter.END, msg)
+					privFrames[privUser].pack(expand=True, fill=tkinter.BOTH)
+					privLists[privUser].insert(tkinter.END, "PM: " + splitAtSym[0])
+				privLists[privUser].insert(tkinter.END, msgToSend)
 			else:
 				msg_list.insert(tkinter.END, msg)
 		except OSError:  # Possibly client has left the chat.
@@ -69,9 +75,9 @@ if __name__ == "__main__":
 	# Following will contain the messages.
 	msg_list = tkinter.Listbox(messages_frame, height=15, width=50, yscrollcommand=scrollbar.set)
 	scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
-	msg_list.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
+	msg_list.pack(side=tkinter.LEFT, expand=True, fill=tkinter.BOTH)
 	msg_list.pack()
-	messages_frame.pack()
+	messages_frame.pack(expand=True, fill=tkinter.BOTH)
 
 	# privateMsg_frame = tkinter.Frame(top)
 	# my_pmsg = tkinter.StringVar()
