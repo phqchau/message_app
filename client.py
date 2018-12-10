@@ -8,8 +8,9 @@ import tkinter
 def isPrivate(msg):
 	# print(msg)
 	strMsg = msg.split(": ")
+	#print(strMsg)  """This checked to see what was being saved in the split.Turns out it was an array"""
 	try:
-		return strMsg.startswith("@")
+		return strMsg[1].startswith("@")
 	except:
 		return False
 
@@ -26,7 +27,7 @@ def receive():
 			# 	print(msg)
 			if isPrivate(msg):
 				privUser = getPrivUsername(msg)
-				pmsg_list.insert(tkinter.END, msg)
+				# pmsg_list.insert(tkinter.END, msg)
 				if not privUser in privFrames:
 					privFrames[privUser] = tkinter.Frame(top)
 					newScrollbar = tkinter.Scrollbar(privFrames[privUser])
@@ -72,15 +73,15 @@ if __name__ == "__main__":
 	msg_list.pack()
 	messages_frame.pack()
 
-	privateMsg_frame = tkinter.Frame(top)
-	my_pmsg = tkinter.StringVar()
-	my_pmsg.set("Type your private message here.")
-	scrollbar2 = tkinter.Scrollbar(privateMsg_frame)
-	pmsg_list = tkinter.Listbox(privateMsg_frame, height=15, width=50, yscrollcommand=scrollbar2.set)
-	scrollbar2.pack(side=tkinter.RIGHT, fill=tkinter.Y)
-	pmsg_list.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
-	pmsg_list.pack()
-	privateMsg_frame.pack()
+	# privateMsg_frame = tkinter.Frame(top)
+	# my_pmsg = tkinter.StringVar()
+	# my_pmsg.set("Type your private message here.")
+	# scrollbar2 = tkinter.Scrollbar(privateMsg_frame)
+	# pmsg_list = tkinter.Listbox(privateMsg_frame, height=15, width=50, yscrollcommand=scrollbar2.set)
+	# scrollbar2.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+	# pmsg_list.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
+	# pmsg_list.pack()
+	# privateMsg_frame.pack()
 
 	privLists = {}
 	privFrames = {}
