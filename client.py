@@ -34,7 +34,7 @@ def receive():
 			#else:
 			msg_list.insert(tkinter.END, msg)
 		except OSError:  # Possibly client has left the chat.
-			breaks
+			break
 
 def send(event=None):  # event is passed by binders.
 	"""Handles sending of messages."""
