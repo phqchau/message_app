@@ -1,23 +1,17 @@
-#!/usr/bin/env python3
-"""Server for multithreaded (asynchronous) chat application."""
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 
-
 def accept_incoming_connections():
-	"""Sets up handling for incoming clients."""
 	while True:
 		client, client_address = SERVER.accept()
 		print("%s:%s has connected." % client_address)
-		client.send(bytes("Greetings from the cave! Now type your name and press enter!", "utf8"))
+		client.send(bytes("Greetings! First type your name and press Enter!", "utf8"))
 		addresses[client] = client_address
 		Thread(target=handle_client, args=(client,)).start()
 
-def handle_client(client):  # Takes client socket as argument.
-	"""Handles a single client connection."""
-
+def handle_client(client):
 	name = client.recv(BUFSIZ).decode("utf8")
-	welcome = 'Welcome %s! If you ever want to quit, type {quit} to exit.' % name
+	welcome = 'Welcome %s! Type {quit} or click the x button to quit the application.' % name
 	client.send(bytes(welcome, "utf8"))
 	msg = "%s has joined the chat!" % name
 	broadcast(bytes(msg, "utf8"))
@@ -48,24 +42,19 @@ def handle_client(client):  # Takes client socket as argument.
 			break
 
 
-def broadcast(msg, prefix=""):  # prefix is for name identification.
-	"""Broadcasts a message to all the clients."""
+def broadcast(msg, prefix=""): #sends a message to all active users
 	for sock in clients:
 		sock.send(bytes(prefix, "utf8")+msg)
 
-def private_msg(msg, receiver, prefix=""):
+def private_msg(msg, receiver, prefix=""): #sends a message to a specified user
 	if receiver in names:
 		names[receiver].send(bytes(prefix, "utf8")+msg)
-
-	# for sock in clients:
-	# 	if clients[sock] == receiver:
-	# 		sock.send(bytes(prefix, "utf8")+msg)
 
 clients = {}
 names = {}
 addresses = {}
 
-HOST = ''
+HOST = '127.0.0.1'
 PORT = 33000
 BUFSIZ = 1024
 ADDR = (HOST, PORT)
