@@ -35,7 +35,7 @@ def handle_client(client):  # Takes client socket as argument.
 			else:
 				broadcast(msg, name+": ")
 		elif msg == bytes("{names}", "utf8"):
-			client.send(bytes(":".join(names.keys()), "utf8"))
+			client.send(bytes("{namelist}:"+":".join(names.keys()), "utf8"))
 		else:
 			client.send(bytes("{quit}", "utf8"))
 			client.close()
