@@ -27,7 +27,8 @@ def receive():
 			# if msg:
 			# 	print(msg)
 			if msg.split(":")[0] == "{namelist}":
-				pass
+				for i in msg.split(":")[1:]:
+					user_list.insert(tkinter.END, i)
 			elif isPrivate(msg):
 				# print("Is Private")
 				splitAtSym = msg.split(": ")
@@ -54,7 +55,7 @@ def receive():
 							privFrames[target].pack(expand=True, fill=tkinter.BOTH)
 							privLists[target].insert(tkinter.END, "PM: " + target)
 						privLists[target].insert(tkinter.END, msgToSend)
-				else:	
+				else:
 					del splitAfterAt[1]
 					msgToSend = ' '.join(splitAfterAt)
 					# print(msgToSend)
@@ -96,7 +97,7 @@ def on_closing(event=None):
 	my_msg.set("{quit}")
 	send()
 	# top.quit()
-	
+
 
 
 if __name__ == "__main__":
