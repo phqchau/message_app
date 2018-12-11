@@ -21,6 +21,8 @@ def handle_client(client):  # Takes client socket as argument.
 	client.send(bytes(welcome, "utf8"))
 	msg = "%s has joined the chat!" % name
 	broadcast(bytes(msg, "utf8"))
+	msg = "{namelist}:"+":".join(names.keys())
+	broadcast(bytes(msg, "utf8"))
 	clients[client] = name
 	names[name] = client
 
@@ -40,7 +42,9 @@ def handle_client(client):  # Takes client socket as argument.
 			client.send(bytes("{quit}", "utf8"))
 			client.close()
 			del clients[client]
+			del names[name]
 			broadcast(bytes("%s has left the chat." % name, "utf8"))
+			broadcast(bytes("{namelist}:"+":".join(names.keys()), "utf8"))
 			break
 
 
