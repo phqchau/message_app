@@ -125,6 +125,8 @@ if __name__ == "__main__":
 	userListLabel.pack(expand=True, fill=tkinter.X)
 	scrollbar2 = tkinter.Scrollbar(userlist_frame)
 	user_list = tkinter.Listbox(userlist_frame, height=15, width=25, yscrollcommand=scrollbar2.set)
+	user_list.insert(tkinter.END, "Type @ followed by an username in the list to Private Message")
+	user_list.insert(tkinter.END, "------------------------")
 	scrollbar2.pack(side=tkinter.RIGHT, fill=tkinter.Y)
 	user_list.pack(side=tkinter.LEFT, expand=True, fill=tkinter.BOTH)
 	user_list.pack()
