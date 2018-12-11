@@ -27,6 +27,7 @@ def receive():
 			# if msg:
 			# 	print(msg)
 			if msg.split(":")[0] == "{namelist}":
+				user_list.delete(0, tkinter.END)
 				for i in msg.split(":")[1:]:
 					user_list.insert(tkinter.END, i)
 			elif isPrivate(msg):
