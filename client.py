@@ -30,6 +30,7 @@ def receive():
 				# print("Is Private")
 				splitAtSym = msg.split(": ")
 				splitAfterAt = msg.split(" ")
+<<<<<<< HEAD
 				# print(splitAfterAt)
 				if ":" in splitAtSym[0]:
 					cmdSplit = splitAtSym[0].split(":")
@@ -68,6 +69,25 @@ def receive():
 						privFrames[privUser].pack(expand=True, fill=tkinter.BOTH)
 						privLists[privUser].insert(tkinter.END, "PM: " + splitAtSym[0])
 					privLists[privUser].insert(tkinter.END, msgToSend)
+=======
+				del splitAfterAt[1]
+				msgToSend = ' '.join(splitAfterAt)
+				print(msgToSend)
+				privUser = getPrivUsername(msg)
+				if not privUser in privFrames:
+					privFrames[privUser] = tkinter.Frame(privateMsg_frame)
+					newScrollbar = tkinter.Scrollbar(privFrames[privUser])
+					privLists[privUser] = tkinter.Listbox(privFrames[privUser], yscrollcommand=newScrollbar.set)
+					delete_button = tkinter.Button(privFrames[privUser], text='Delete', command=lambda: delete_button.master.pack_forget())
+					newScrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+					privLists[privUser].pack(side=tkinter.LEFT, expand=True, fill=tkinter.BOTH)
+					privLists[privUser].pack()
+					delete_button.pack(expand=True, fill=tkinter.X)
+					privFrames[privUser].pack(expand=True, fill=tkinter.BOTH)
+					privLists[privUser].insert(tkinter.END, "PM: " + splitAtSym[0])
+					privLists[privUser].insert(tkinter.END, "-------------------------")
+				privLists[privUser].insert(tkinter.END, msgToSend)
+>>>>>>> 45a9dcbca3bad5b3cda0a5655f2deb93d10ccd82
 			else:
 				msg_list.insert(tkinter.END, msg)
 		except OSError:  # Possibly client has left the chat.
@@ -112,15 +132,10 @@ if __name__ == "__main__":
 	msg_list.pack()
 	messages_frame.pack(expand=True, fill=tkinter.BOTH)
 
-	# privateMsg_frame = tkinter.Frame(top)
-	# my_pmsg = tkinter.StringVar()
-	# my_pmsg.set("Type your private message here.")
-	# scrollbar2 = tkinter.Scrollbar(privateMsg_frame)
-	# pmsg_list = tkinter.Listbox(privateMsg_frame, height=15, width=50, yscrollcommand=scrollbar2.set)
-	# scrollbar2.pack(side=tkinter.RIGHT, fill=tkinter.Y)
-	# pmsg_list.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
-	# pmsg_list.pack()
-	# privateMsg_frame.pack()
+	pmSectionLabel = tkinter.Label(top, text="Private Messages:")
+	privateMsg_frame = tkinter.Frame(top)
+	pmSectionLabel.pack(expand=True, fill=tkinter.X)
+	privateMsg_frame.pack(expand=True, fill=tkinter.BOTH)
 
 	privLists = {}
 	privFrames = {}
