@@ -30,7 +30,6 @@ def receive():
 				# print("Is Private")
 				splitAtSym = msg.split(": ")
 				splitAfterAt = msg.split(" ")
-<<<<<<< HEAD
 				# print(splitAfterAt)
 				if ":" in splitAtSym[0]:
 					cmdSplit = splitAtSym[0].split(":")
@@ -69,25 +68,6 @@ def receive():
 						privFrames[privUser].pack(expand=True, fill=tkinter.BOTH)
 						privLists[privUser].insert(tkinter.END, "PM: " + splitAtSym[0])
 					privLists[privUser].insert(tkinter.END, msgToSend)
-=======
-				del splitAfterAt[1]
-				msgToSend = ' '.join(splitAfterAt)
-				print(msgToSend)
-				privUser = getPrivUsername(msg)
-				if not privUser in privFrames:
-					privFrames[privUser] = tkinter.Frame(privateMsg_frame)
-					newScrollbar = tkinter.Scrollbar(privFrames[privUser])
-					privLists[privUser] = tkinter.Listbox(privFrames[privUser], yscrollcommand=newScrollbar.set)
-					delete_button = tkinter.Button(privFrames[privUser], text='Delete', command=lambda: delete_button.master.pack_forget())
-					newScrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
-					privLists[privUser].pack(side=tkinter.LEFT, expand=True, fill=tkinter.BOTH)
-					privLists[privUser].pack()
-					delete_button.pack(expand=True, fill=tkinter.X)
-					privFrames[privUser].pack(expand=True, fill=tkinter.BOTH)
-					privLists[privUser].insert(tkinter.END, "PM: " + splitAtSym[0])
-					privLists[privUser].insert(tkinter.END, "-------------------------")
-				privLists[privUser].insert(tkinter.END, msgToSend)
->>>>>>> 45a9dcbca3bad5b3cda0a5655f2deb93d10ccd82
 			else:
 				msg_list.insert(tkinter.END, msg)
 		except OSError:  # Possibly client has left the chat.
