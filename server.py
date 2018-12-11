@@ -1,3 +1,4 @@
+#Sari, Laurence, Chau, CS410
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 
@@ -5,7 +6,7 @@ def accept_incoming_connections():
 	while True:
 		client, client_address = SERVER.accept()
 		print("%s:%s has connected." % client_address)
-		client.send(bytes("Greetings! First type your name and press Enter!", "utf8"))
+		client.send(bytes("Hello! First type your NAME and press Enter!", "utf8"))
 		addresses[client] = client_address
 		Thread(target=handle_client, args=(client,)).start()
 
@@ -35,12 +36,11 @@ def handle_client(client):
 		else:
 			client.send(bytes("{quit}", "utf8"))
 			client.close()
+			broadcast(bytes("%s has left the chat." % name, "utf8"))
 			del clients[client]
 			del names[name]
-			broadcast(bytes("%s has left the chat." % name, "utf8"))
 			broadcast(bytes("{namelist}:"+":".join(names.keys()), "utf8"))
 			break
-
 
 def broadcast(msg, prefix=""): #sends a message to all active users
 	for sock in clients:
@@ -54,7 +54,7 @@ clients = {}
 names = {}
 addresses = {}
 
-HOST = '127.0.0.1'
+HOST = ''
 PORT = 33000
 BUFSIZ = 1024
 ADDR = (HOST, PORT)

@@ -1,3 +1,4 @@
+#Sari, Laurence, Chau, CS410
 from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 import tkinter
@@ -18,7 +19,7 @@ def receive():
 			msg = client_socket.recv(BUFSIZ).decode("utf8")
 			if msg.split(":")[0] == "{namelist}":
 				user_list.delete(0, tkinter.END)
-				user_list.insert(tkinter.END, "Type @ followed by an username in the list to Private Message")
+				user_list.insert(tkinter.END, "Type @ followed by an username in the list below to Private Message")
 				user_list.insert(tkinter.END, "------------------------")
 				for i in msg.split(":")[1:]:
 					user_list.insert(tkinter.END, i)
@@ -83,15 +84,13 @@ def on_closing(event=None):
 
 if __name__ == "__main__":
 	top = tkinter.Tk()
-	top.title("Group Messaging")
+	top.title("Messaging Application")
 
 	groupUser_frame = tkinter.Frame(top)
 	groupUser_frame.pack(expand=True, fill=tkinter.BOTH)
-
 	messages_frame = tkinter.Frame(groupUser_frame)
 	groupMsgLabel = tkinter.Label(messages_frame, text="Group Chat")
 	groupMsgLabel.pack(expand=True, fill=tkinter.X)
-
 	my_msg = tkinter.StringVar()
 	my_msg.set("Type your message here.")
 	scrollbar = tkinter.Scrollbar(messages_frame)
@@ -112,10 +111,7 @@ if __name__ == "__main__":
 	userlist_frame.pack(side=tkinter.RIGHT, expand=True, fill=tkinter.BOTH)
 
 	privateMsg_frame = tkinter.Frame(top)
-	pmSectionLabel = tkinter.Label(privateMsg_frame, text="Private Messages:")
-	pmSectionLabel.pack(expand=True, fill=tkinter.X)
 	privateMsg_frame.pack(expand=True, fill=tkinter.BOTH)
-
 	privLists = {}
 	privFrames = {}
 
@@ -131,13 +127,11 @@ if __name__ == "__main__":
 
 	HOST = input('Enter host: ')
 	PORT = int(input('Enter port: '))
-
 	BUFSIZ = 1024
 	ADDR = (HOST, PORT)
 
 	client_socket = socket(AF_INET, SOCK_STREAM)
 	client_socket.connect(ADDR)
-
 	receive_thread = Thread(target=receive)
 	receive_thread.start()
 	tkinter.mainloop()
