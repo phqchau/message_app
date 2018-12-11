@@ -31,7 +31,7 @@ def handle_client(client):  # Takes client socket as argument.
 			if msg.decode("utf8").startswith("@"):
 				receiver = msg.decode("utf8").split(" ")[0][1:]
 				private_msg(msg, receiver, name+": ")
-				private_msg(msg, client, name+": ") #so that the PM shows up for both the sender and receiver
+				private_msg(msg, name, "{self}:"+name+": ") #so that the PM shows up for both the sender and receiver
 			else:
 				broadcast(msg, name+": ")
 		else:

@@ -15,7 +15,8 @@ def isPrivate(msg):
 		return False
 
 def getPrivUsername(msg):
-    return msg.split(" ")[0][1:]
+    # return msg.split(" ")[1][1:]
+	return msg.split(":")[0]
 
 def receive():
 	"""Handles receiving of messages."""
@@ -26,25 +27,47 @@ def receive():
 			# if msg:
 			# 	print(msg)
 			if isPrivate(msg):
+				# print("Is Private")
 				splitAtSym = msg.split(": ")
 				splitAfterAt = msg.split(" ")
-				del splitAfterAt[1]
-				msgToSend = ' '.join(splitAfterAt)
-				print(msgToSend)
-				privUser = getPrivUsername(msg)
-				if not privUser in privFrames:
-					privFrames[privUser] = tkinter.Frame(privateMsg_frame)
-					newScrollbar = tkinter.Scrollbar(privFrames[privUser])
-					privLists[privUser] = tkinter.Listbox(privFrames[privUser], yscrollcommand=newScrollbar.set)
-					delete_button = tkinter.Button(privFrames[privUser], text='Delete', command=lambda: delete_button.master.pack_forget())
-					newScrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
-					privLists[privUser].pack(side=tkinter.LEFT, expand=True, fill=tkinter.BOTH)
-					privLists[privUser].pack()
-					delete_button.pack(expand=True, fill=tkinter.X)
-					privFrames[privUser].pack(expand=True, fill=tkinter.BOTH)
-					privLists[privUser].insert(tkinter.END, "PM: " + splitAtSym[0])
-					privLists[privUser].insert(tkinter.END, "-------------------------")
-				privLists[privUser].insert(tkinter.END, msgToSend)
+				# print(splitAfterAt)
+				if ":" in splitAtSym[0]:
+					cmdSplit = splitAtSym[0].split(":")
+					# print(cmdSplit)
+					cmd = cmdSplit[0]
+					if cmd == "{self}":
+						target = splitAfterAt[1][1:]
+						del splitAfterAt[1]
+						splitAfterAt[0] = cmdSplit[1] + ":"
+						msgToSend = ' '.join(splitAfterAt)
+						# print (privFrames)
+						if not target in privFrames:
+							privFrames[target] = tkinter.Frame(top)
+							# print(privFrames)
+							newScrollbar = tkinter.Scrollbar(privFrames[target])
+							privLists[target] = tkinter.Listbox(privFrames[target], yscrollcommand=newScrollbar.set)
+							newScrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+							privLists[target].pack(side=tkinter.LEFT, expand=True, fill=tkinter.BOTH)
+							privLists[target].pack()
+							privFrames[target].pack(expand=True, fill=tkinter.BOTH)
+							privLists[target].insert(tkinter.END, "PM: " + target)
+						privLists[target].insert(tkinter.END, msgToSend)
+				else:	
+					del splitAfterAt[1]
+					msgToSend = ' '.join(splitAfterAt)
+					# print(msgToSend)
+					privUser = getPrivUsername(msg)
+					# pmsg_list.insert(tkinter.END, msg)
+					if not privUser in privFrames:
+						privFrames[privUser] = tkinter.Frame(top)
+						newScrollbar = tkinter.Scrollbar(privFrames[privUser])
+						privLists[privUser] = tkinter.Listbox(privFrames[privUser], yscrollcommand=newScrollbar.set)
+						newScrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+						privLists[privUser].pack(side=tkinter.LEFT, expand=True, fill=tkinter.BOTH)
+						privLists[privUser].pack()
+						privFrames[privUser].pack(expand=True, fill=tkinter.BOTH)
+						privLists[privUser].insert(tkinter.END, "PM: " + splitAtSym[0])
+					privLists[privUser].insert(tkinter.END, msgToSend)
 			else:
 				msg_list.insert(tkinter.END, msg)
 		except OSError:  # Possibly client has left the chat.
@@ -54,9 +77,15 @@ def send(event=None):  # event is passed by binders.
 	"""Handles sending of messages."""
 	msg = my_msg.get()
 	my_msg.set("")  # Clears input field.
-	client_socket.send(bytes(msg, "utf8"))
+	try:
+		client_socket.send(bytes(msg, "utf8"))
+	except:
+		print("No client socket set")
 	if msg == "{quit}":
-		client_socket.close()
+		try:
+			client_socket.close()
+		except:
+			pass
 		top.quit()
 
 
@@ -64,6 +93,8 @@ def on_closing(event=None):
 	"""This function is to be called when the window is closed."""
 	my_msg.set("{quit}")
 	send()
+	# top.quit()
+	
 
 
 if __name__ == "__main__":
