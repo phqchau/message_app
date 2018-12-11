@@ -87,7 +87,7 @@ if __name__ == "__main__":
 	groupUser_frame.pack(expand=True, fill=tkinter.BOTH)
 
 
-	messages_frame = tkinter.Frame(top)
+	messages_frame = tkinter.Frame(groupUser_frame)
 	groupMsgLabel = tkinter.Label(messages_frame, text="Group Chat")
 	groupMsgLabel.pack(expand=True, fill=tkinter.X)
 
@@ -98,7 +98,7 @@ if __name__ == "__main__":
 	scrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
 	msg_list.pack(side=tkinter.LEFT, expand=True, fill=tkinter.BOTH)
 	msg_list.pack()
-	messages_frame.pack(expand=True, fill=tkinter.BOTH)
+	messages_frame.pack(side=tkinter.LEFT, expand=True, fill=tkinter.BOTH)
 
 	userlist_frame = tkinter.Frame(groupUser_frame)
 	userListLabel = tkinter.Label(userlist_frame, text="Available Users")
