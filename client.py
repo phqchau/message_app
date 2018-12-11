@@ -26,7 +26,9 @@ def receive():
 			# print(isPrivate(msg))
 			# if msg:
 			# 	print(msg)
-			if isPrivate(msg):
+			if msg.split(":")[0] == "{namelist}":
+				pass
+			elif isPrivate(msg):
 				# print("Is Private")
 				splitAtSym = msg.split(": ")
 				splitAfterAt = msg.split(" ")
