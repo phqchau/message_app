@@ -18,6 +18,8 @@ def receive():
 			msg = client_socket.recv(BUFSIZ).decode("utf8")
 			if msg.split(":")[0] == "{namelist}":
 				user_list.delete(0, tkinter.END)
+				user_list.insert(tkinter.END, "Type @ followed by an username in the list to Private Message")
+				user_list.insert(tkinter.END, "------------------------")
 				for i in msg.split(":")[1:]:
 					user_list.insert(tkinter.END, i)
 			elif isPrivate(msg):
@@ -86,7 +88,6 @@ if __name__ == "__main__":
 	groupUser_frame = tkinter.Frame(top)
 	groupUser_frame.pack(expand=True, fill=tkinter.BOTH)
 
-
 	messages_frame = tkinter.Frame(groupUser_frame)
 	groupMsgLabel = tkinter.Label(messages_frame, text="Group Chat")
 	groupMsgLabel.pack(expand=True, fill=tkinter.X)
@@ -105,8 +106,6 @@ if __name__ == "__main__":
 	userListLabel.pack(expand=True, fill=tkinter.X)
 	scrollbar2 = tkinter.Scrollbar(userlist_frame)
 	user_list = tkinter.Listbox(userlist_frame, height=15, width=25, yscrollcommand=scrollbar2.set)
-	user_list.insert(tkinter.END, "Type @ followed by an username in the list to Private Message")
-	user_list.insert(tkinter.END, "------------------------")
 	scrollbar2.pack(side=tkinter.RIGHT, fill=tkinter.Y)
 	user_list.pack(side=tkinter.LEFT, expand=True, fill=tkinter.BOTH)
 	user_list.pack()

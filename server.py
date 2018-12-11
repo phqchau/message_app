@@ -15,10 +15,10 @@ def handle_client(client):
 	client.send(bytes(welcome, "utf8"))
 	msg = "%s has joined the chat!" % name
 	broadcast(bytes(msg, "utf8"))
-	msg = "{namelist}:"+":".join(names.keys())
-	broadcast(bytes(msg, "utf8"))
 	clients[client] = name
 	names[name] = client
+	msg = "{namelist}:"+":".join(names.keys())
+	broadcast(bytes(msg, "utf8"))
 
 	while True:
 		msg = client.recv(BUFSIZ)
